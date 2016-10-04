@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.IOException;
 
 public class DirectoryInfo {
     private File theDirectory;
@@ -35,8 +36,9 @@ public class DirectoryInfo {
 
     public void listFiles() {
         try {
-            for (File file : theDirectory.listFiles()) {
-                System.out.println(file.getName());
+            for (String file : theDirectory.list()) {
+                //TODO: mark the directories correctly
+                System.out.println(theDirectory.getPath() + File.separatorChar + file);
             }
         } catch (NullPointerException e) {
             System.err.println(e.getMessage());
