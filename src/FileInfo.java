@@ -16,7 +16,7 @@ public class FileInfo {
     }
 
     private void getInfo() {
-        relativePath = theFile.getPath();
+        relativePath = theFile.toPath().toString();
         try {
             absolutePath = theFile.getCanonicalPath();
         } catch (IOException e) {
@@ -39,6 +39,7 @@ public class FileInfo {
     public boolean rename(String newname) {
         String absolutePathWithoutFileName;
         File renamedFile;
+        boolean done;
 
         try {
             absolutePathWithoutFileName = theFile.getCanonicalPath().substring(0, theFile.getCanonicalPath().length() - theFile.getName().length());
@@ -48,7 +49,10 @@ public class FileInfo {
                 Menu overwriteMenu = new Menu("YES", "NO");
                 return overwriteMenu.showMenu() == 1 && theFile.renameTo(new File(absolutePathWithoutFileName + newname));
             }
-            return theFile.renameTo(new File(absolutePathWithoutFileName + newname));
+            done = theFile.renameTo(renamedFile);
+            theFile = renamedFile;
+            getInfo();
+            return done;
         } catch (IOException e) {
             e.printStackTrace();
             return false;

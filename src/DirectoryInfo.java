@@ -1,7 +1,7 @@
 import java.io.File;
 
 public class DirectoryInfo {
-    private final File theDirectory;
+    private File theDirectory;
 
     public DirectoryInfo(File theDirectory) throws Exception {
         if(theDirectory != null) {
@@ -21,13 +21,16 @@ public class DirectoryInfo {
 
     public boolean rename(String newname) {
         File renamedDirectory = new File(newname);
+        boolean done;
 
         if(renamedDirectory.exists()) {
             System.out.println("There's a file/directory with that name, do you want to overwrite it?");
             Menu overwriteMenu = new Menu("YES", "NO");
             return overwriteMenu.showMenu() == 1 && theDirectory.renameTo(new File(newname));
         }
-        return theDirectory.renameTo(new File(newname));
+        done = theDirectory.renameTo(renamedDirectory);
+        theDirectory = renamedDirectory;
+        return done;
     }
 
     public void listFiles() {
